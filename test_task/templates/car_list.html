@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Car List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+</head>
+<body class="container">
+<h1 class="py-1">Автомобили</h1>
+<form class="form-inline my-lg-0 py-3" method="GET">
+{#    {% csrf_token %}#}
+    <select name="category" id="" onchange="this.form.submit();">
+        <option value="" disabled selected >Год авто</option>
+        {% for category in categories %}
+            <option value="{{ category.id }}">{{ category }}</option>
+        {% endfor %}
+    </select>
+    <a class="btn " href="/">Сбросить фильтры</a>
+    </form>
+{% if cars %}
+
+    <table class="table">
+  <thead>
+    <tr>
+        <th scope="col"><a href="/{% if choosen_category %}?category={{ choosen_category }} {% endif %}">#</a></th>
+        <th scope="col"><a href="/?order=brand{% if choosen_category %}&category={{ choosen_category }} {% endif %}">Марка</a></th>
+        <th scope="col"><a href="/?order=model{% if choosen_category %}&category={{ choosen_category }} {% endif %}">Модель</a></th>
+        <th scope="col"><a href="/?order=category{% if choosen_category %}&category={{ choosen_category }} {% endif %}">Категория</a></th>
+        <th scope="col"><a href="/?order=price{% if choosen_category %}&category={{ choosen_category }} {% endif %}">Цена</a></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for car in cars %}
+    <tr>
+      <th scope="row">{{ car.id }}</th>
+      <td>{{ car.brand }}</td>
+      <td>{{ car.model }}</td>
+      <td>{{ car.category }}</td>
+      <td>{{ car.price }}$</td>
+    </tr>
+
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+    <strong>Еще нет таких авто</strong>
+{% endif %}
+</body>
+</html>
